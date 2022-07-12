@@ -7,3 +7,12 @@ T.h5
 T.xdmf
 temperature.h5
 temperature.xdmf
+trap_eurofer_1.h5
+trap_eurofer_1.xdmf
+trap_W_1.h5
+trap_W_1.xdmf
+trap_W_2.h5
+trap_W_2.xdmf
+retention.h5
+retention.xdmf
+derived_quantities.csv
