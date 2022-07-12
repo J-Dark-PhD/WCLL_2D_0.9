@@ -75,10 +75,6 @@ def Cp_eurofer(T):  # units in J/(kg*K)
     return -139.66 + 3.4777 * T - 0.0063847 * T**2 + 4.0984e-06 * T**3
 
 
-# def Cp_eurofer_2(T):  # units in J/(kg*K)(Mergia)
-#     return 2.696*T - 0.00496*T**2 + 3.335e-06*T**3
-
-
 def rho_eurofer(T):  # units in kg/m**3
     return 7852.102143 - 0.331026405 * T
 
@@ -100,14 +96,6 @@ trap_energy_eurofer = 0.7804  # (eV)
 # recombination coefficient from Liu Journal of Nuclear Materials (2021)
 Kr_0_eurofer = 1.4143446334700682e-26
 E_Kr_eurofer = -0.25727457261201786
-
-# recombination coefficient from Braun (1980)
-# Kr_0_eurofer = 5.9680e-17
-# E_Kr_eurofer = 0.888
-
-# recombination coefficient from Esteban (2000)
-# Kr_0_eurofer = 4.7127e-31
-# E_Kr_eurofer = 2.471
 
 # recombination coefficient instantaneus
 
