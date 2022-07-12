@@ -2,10 +2,8 @@
 Needs to be run in serial
 """
 from fenics import *
-import sympy as sp
-from context import FESTIM as F
+import FESTIM as F
 import properties
-
 import solve_heat_transfer
 
 # IDs for volumes and surfaces (must be the same as in xdmf files)
@@ -13,7 +11,6 @@ import solve_heat_transfer
 id_W = 7
 id_eurofer = 8
 id_lipb = 6
-
 id_inlet = 9
 id_outlet = 10
 
@@ -125,8 +122,7 @@ solve(F == 0, up, bcu, solver_parameters={"newton_solver": {"linear_solver": "mu
 u_export = Function(W)
 u_export.assign(up)
 u_out, p_out = u_export.split()
-XDMFFile("Results/u_sub_fine.xdmf").write(u_out)
-XDMFFile("Results/u_sub_fine.xdmf").write_checkpoint(
+XDMFFile("Results/velcoity_fields/u_sub_fine.xdmf").write_checkpoint(
     u_out, "u", 0, XDMFFile.Encoding.HDF5, append=False
 )
 
@@ -153,6 +149,6 @@ solve(
     solver_parameters={"newton_solver": {"linear_solver": "mumps"}},
 )
 
-XDMFFile("Results/u.xdmf").write_checkpoint(
+XDMFFile("Results/velocity_fields/u.xdmf").write_checkpoint(
     u_full, "u", 0, XDMFFile.Encoding.HDF5, append=False
 )
