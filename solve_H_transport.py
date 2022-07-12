@@ -45,7 +45,7 @@ def run_H_transport(model, S_0_lipb=S_0_lipb, E_S_lipb=E_S_lipb):
 
     # run the simulation with the modified formulation
     model.run()
-    for export in model.exports:
+    for export in model.exports.exports:
         if isinstance(export, F.DerivedQuantities):
             return export
 
