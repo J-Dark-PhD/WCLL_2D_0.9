@@ -153,9 +153,9 @@ trap_eurofer_1 = F.Trap(
 )
 my_model.traps = F.Traps(
     [
-        trap_eurofer_1,
         trap_W_1,
         trap_W_2,
+        trap_eurofer_1,
     ]
 )
 
@@ -204,29 +204,36 @@ my_model.sources = [
 ]
 
 # define boundary conditions
+plasma_flux = F.FluxBC(surfaces=id_first_wall, value=0.5e06, field="T")
+inlet_temperature = F.DirichletBC(surfaces=id_inlet, value=598.15, field="T")
+fw_channels_convective_flux = F.ConvectiveFlux(
+    h_coeff=2.2308e04, T_ext=585.35, surfaces=id_eurofer_coolant_interface
+)
+bz_pipes_convective_flux = F.ConvectiveFlux(
+    h_coeff=1.5865e04, T_ext=584.9, surfaces=ids_pipe_coolant_interface
+)
+inlet_h_concentration = F.DirichletBC(surfaces=id_inlet, value=0, field=0)
+coolant_boundary_recombination_flux = F.RecombinationFlux(
+    Kr_0=properties.Kr_0_eurofer,
+    E_Kr=properties.E_Kr_eurofer,
+    order=2,
+    surfaces=[*ids_pipe_coolant_interface, id_eurofer_coolant_interface],
+)
+first_wall_implantation_flux = F.ImplantationDirichlet(
+    surfaces=id_first_wall,
+    phi=1e20,
+    R_p=3e-09,
+    D_0=properties.D_0_W,
+    E_D=properties.E_D_W,
+)
 my_model.boundary_conditions = [
-    F.FluxBC(surfaces=id_first_wall, value=0.5e06, field="T"),
-    F.DirichletBC(surfaces=id_inlet, value=598.15, field="T"),
-    F.ConvectiveFlux(
-        h_coeff=2.2308e04, T_ext=585.35, surfaces=id_eurofer_coolant_interface
-    ),
-    F.ConvectiveFlux(
-        h_coeff=1.5865e04, T_ext=584.9, surfaces=ids_pipe_coolant_interface
-    ),
-    F.DirichletBC(surfaces=id_inlet, value=0, field=0),
-    F.RecombinationFlux(
-        Kr_0=properties.Kr_0_eurofer,
-        E_Kr=properties.E_Kr_eurofer,
-        order=2,
-        surfaces=[*ids_pipe_coolant_interface, id_eurofer_coolant_interface],
-    ),
-    F.ImplantationDirichlet(
-        surfaces=id_first_wall,
-        phi=1e20,
-        R_p=3e-09,
-        D_0=properties.D_0_W,
-        E_D=properties.E_D_W,
-    ),
+    plasma_flux,
+    inlet_temperature,
+    fw_channels_convective_flux,
+    bz_pipes_convective_flux,
+    inlet_h_concentration,
+    coolant_boundary_recombination_flux,
+    first_wall_implantation_flux,
 ]
 
 # define exports
@@ -248,24 +255,32 @@ my_derived_quantities.derived_quantities = [
     ],
     F.SurfaceFlux("solute", surface=id_eurofer_coolant_interface),
     F.SurfaceFlux("solute", surface=id_first_wall),
+    F.TotalSurface("solute", surface=id_outlet),
 ]
 my_model.exports = F.Exports(
     [
         F.XDMFExport("solute", folder=folder, mode=1),
-        # F.XDMFExport("retention", folder=folder, mode=1),
-        # F.XDMFExport("1", folder=folder, label="trap_W_1", mode=1),
-        # F.XDMFExport("2", folder=folder, label="trap_W_2", mode=1),
-        # F.XDMFExport("3", folder=folder, label="trap_eurofer_1", mode=1),
+        F.XDMFExport("retention", folder=folder, mode=1),
+        F.XDMFExport("1", folder=folder, label="trap_W_1", mode=1),
+        F.XDMFExport("2", folder=folder, label="trap_W_2", mode=1),
+        F.XDMFExport("3", folder=folder, label="trap_eurofer_1", mode=1),
         F.XDMFExport("T", folder=folder, mode=1),
-        # my_derived_quantities,
+        my_derived_quantities,
     ]
 )
 
-my_model.stepsize = F.Stepsize()
+# option for transient simulations
+# my_model.dt = F.Stepsize(
+#     initial_value=1,
+#     stepsize_change_ratio=1.1,
+#     dt_min=1e-04,
+#     stepsize_stop_max=1 / 10,
+# )
 
 # define solving parameters
 my_model.settings = F.Settings(
     transient=False,
+    final_time=86400,
     absolute_tolerance=1e12,
     relative_tolerance=1e-08,
     traps_element_type="DG",
