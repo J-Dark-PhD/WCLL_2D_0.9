@@ -18,7 +18,7 @@ def run_H_transport(model, S_0_lipb=S_0_lipb, E_S_lipb=E_S_lipb):
         log_level (int, optional): [description]. Defaults to 20.
 
     Returns:
-        [type]: [description]
+        F.DerivedQuantities: [description]
     """
     # create a simulation with these normal parameters
     model.initialise()
