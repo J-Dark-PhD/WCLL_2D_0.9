@@ -1,8 +1,2 @@
 # ##### My files to ignore ##### # ###########################################################
-
-1D_perm_barrier.py
-1D_perm_barrier_alt.py
-periodicBC.py
-
-# ignore tchenla folder 
-tchenla/
+*.pyc

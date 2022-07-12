@@ -1,13 +1,9 @@
 # ##### My files to ignore ##### # ###########################################################
 
 # Results files 
-*.xdmf
-*.h5
-*.pdf
-*.xlsx
-*.gif
-
-verifications_tests/
-plotting_scripts/2D_solution
-reference_case/transient/with_traps/GIF*
-1D_Results/
+mobile_concentration.h5
+mobile_concentration.xdmf
+T.h5
+T.xdmf
+temperature.h5
+temperature.xdmf
