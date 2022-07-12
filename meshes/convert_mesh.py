@@ -1,6 +1,6 @@
 import meshio
 
-mesh = meshio.read("Mesh_4.med")
+mesh = meshio.read("test_mesh.med")
 
 # In order to use MeshFunction of FEniCS
 # The tag must be a positive number (size_t)
@@ -18,7 +18,7 @@ print(mesh.cell_tags)
 # Export mesh that contains only triangular faces
 # along with tags
 meshio.write_points_cells(
-    "mesh_domains_2D.xdmf",
+    "mesh_domains.xdmf",
     mesh.points,
     [mesh.cells[1]],
     cell_data={"f": [-1*mesh.cell_data["cell_tags"][1]]},
@@ -29,7 +29,7 @@ meshio.write_points_cells(
 # along with tags
 
 meshio.write_points_cells(
-    "mesh_boundaries_2D.xdmf",
+    "mesh_boundaries.xdmf",
     mesh.points,
     [mesh.cells[0]],
     cell_data={"f": [-1*mesh.cell_data["cell_tags"][0]]},
