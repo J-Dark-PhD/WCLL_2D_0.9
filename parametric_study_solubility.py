@@ -29,7 +29,7 @@ if __name__ == "__main__":
         test_9_3,
         test_9_4,
     ]
-    folder = "results/parametric_studies/varying_lipb_solubility/"
+    folder = "Results/parametric_studies/varying_lipb_solubility/"
     # E_S = 0.01399  # average value
     E_S = 0.133
     for S_0 in test_values:
